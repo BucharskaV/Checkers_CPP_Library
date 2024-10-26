@@ -131,6 +131,30 @@ JNIEXPORT jstring JNICALL Java_Game_Board_getBoardCellState
 JNIEXPORT jboolean JNICALL Java_Game_Board_movePiece
   (JNIEnv *, jobject, jint, jint, jint, jint);
 
+/*
+ * Class:     Game_Board
+ * Method:    restart
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_Game_Board_restart
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     Game_Board
+ * Method:    isGameOver
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_Game_Board_isGameOver
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     Game_Board
+ * Method:    getCurrentPlayer
+ * Signature: ()Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_Game_Board_getCurrentPlayer
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif

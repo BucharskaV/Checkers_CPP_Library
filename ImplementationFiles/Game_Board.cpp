@@ -1,63 +1,50 @@
 #include <jni.h>
-#include <string>
 #include <vector>
-class Board{
+#include <string>
+#include <iostream>
+#include "../Headers/Game_Board.h"
+class Board {
+private:
     std::vector<std::vector<std::string>> board = {
             {" ", "PBP", " ", "PBP", " ", "PBP", " ", "PBP"},
             {"PBP", " ", "PBP", " ", "PBP", " ", "PBP", " "},
             {" ", "PBP", " ", "PBP", " ", "PBP", " ", "PBP"},
             {" ", " ", " ", " ", " ", " ", " ", " "},
             {" ", " ", " ", " ", " ", " ", " ", " "},
-            {"PRB", " ", "PRB", " ", "PRB", " ", "PRB", " "},
-            {" ", "PRB", " ", "PRB", " ", "PRB", " ", "PRB"},
-            {"PRB", " ", "PRB", " ", "PRB", " ", "PRB", " "}
+            {"PRP", " ", "PRP", " ", "PRP", " ", "PRP", " "},
+            {" ", "PRP", " ", "PRP", " ", "PRP", " ", "PRP"},
+            {"PRP", " ", "PRP", " ", "PRP", " ", "PRP", " "}
     };
-
     int boardWidth = 8;
     int boardHeight = 8;
-/*    std::string currentPlayer = "RED";
 public:
-    const std::string &getCurrentPlayer() const {
-        return currentPlayer;
-    }
-
-    void setCurrentPlayer(const std::string &currentPlayer) {
-        Board::currentPlayer = currentPlayer;
-    }*/
-
-    JNIEXPORT jstring JNICALL
-    Java_Game_Board_getBoardCellState(JNIEnv *env, jobject obj, jint row, jint col) {
+    Board() = default;
+    std::string getBoardCellState(int row, int col) {
         if (row >= 0 && row < boardHeight && col >= 0 && col < boardWidth) {
-            std::string cellState = board[row][col];
-            return env->NewStringUTF(cellState.c_str());
+            return board[row][col];
         }
-        return env->NewStringUTF(" ");
+        return " ";
     }
-
-
-    JNIEXPORT jint JNICALL
-    Java_Game_Board_getBoardWidth(JNIEnv *env, jobject obj) {
+    int getBoardWidth() const {
         return boardWidth;
     }
-
-
-    JNIEXPORT jint JNICALL
-    Java_Game_Board_getBoardHeight(JNIEnv *env, jobject obj) {
+    int getBoardHeight() const {
         return boardHeight;
     }
-
-
-    JNIEXPORT void JNICALL
-    Java_Game_Board_movePiece(JNIEnv *env, jobject obj, jint fromRow, jint fromCol, jint toRow, jint toCol) {
-        if (fromRow >= 0 && fromRow < boardHeight && fromCol >= 0 && fromCol < boardWidth &&
-            toRow >= 0 && toRow < boardHeight && toCol >= 0 && toCol < boardWidth) {
-
-            std::string piece = board[fromRow][fromCol];
-
-            if (piece != " ") {
-                board[toRow][toCol] = piece;
-                board[fromRow][fromCol] = " ";
-            }
-        }
-    }
 };
+JNIEXPORT jstring JNICALL
+Java_Game_Board_getBoardCellState(JNIEnv *env, jobject obj, jint row, jint col) {
+    Board board;
+    std::string cellState = board.getBoardCellState(row, col);
+    return env->NewStringUTF(cellState.c_str());
+}
+JNIEXPORT jint JNICALL
+Java_Game_Board_getBoardWidth(JNIEnv *env, jobject obj) {
+    Board board;
+    return board.getBoardWidth();
+}
+JNIEXPORT jint JNICALL
+Java_Game_Board_getBoardHeight(JNIEnv *env, jobject obj) {
+    Board board;
+    return board.getBoardHeight();
+}
