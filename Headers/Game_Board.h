@@ -101,6 +101,14 @@ extern "C" {
 #define Game_Board_FOCUS_TRAVERSAL_KEYS_BACKWARD_SET 27L
 /*
  * Class:     Game_Board
+ * Method:    resetParameters
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_Game_Board_resetParameters
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     Game_Board
  * Method:    getBoardWidth
  * Signature: ()I
  */
@@ -126,18 +134,10 @@ JNIEXPORT jstring JNICALL Java_Game_Board_getBoardCellState
 /*
  * Class:     Game_Board
  * Method:    movePiece
- * Signature: (IIII)Z
+ * Signature: (II)Z
  */
 JNIEXPORT jboolean JNICALL Java_Game_Board_movePiece
-  (JNIEnv *, jobject, jint, jint, jint, jint);
-
-/*
- * Class:     Game_Board
- * Method:    restart
- * Signature: ()V
- */
-JNIEXPORT void JNICALL Java_Game_Board_restart
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jint, jint);
 
 /*
  * Class:     Game_Board
@@ -154,6 +154,14 @@ JNIEXPORT jboolean JNICALL Java_Game_Board_isGameOver
  */
 JNIEXPORT jstring JNICALL Java_Game_Board_getCurrentPlayer
   (JNIEnv *, jobject);
+
+/*
+ * Class:     Game_Board
+ * Method:    setCurrentPiece
+ * Signature: (II)Z
+ */
+JNIEXPORT jboolean JNICALL Java_Game_Board_setCurrentPiece
+  (JNIEnv *, jobject, jint, jint);
 
 #ifdef __cplusplus
 }
