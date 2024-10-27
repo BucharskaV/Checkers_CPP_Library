@@ -39,7 +39,7 @@ void Board::resetParameters() {
 }
 
 bool Board::setCurrentPiece(int x, int y) {
-    if(x < 0 && x >= boardHeight && y > 0 && y >= boardWidth && board[x][y]!= " " && currentPlayer == board[x][y][1]){
+    if(x > 0 && x < boardHeight && y > 0 && y < boardWidth && board[x][y]!= " " && currentPlayer == board[x][y][1]){
         currentPiece = Piece(x, y, currentPlayer);
         return true;
     }
@@ -59,13 +59,15 @@ void Board::setCurrentPlayer(const char &currentPlayer) {
 
 bool Board::movePiece(int x1, int y1) {
     if (isMoveValid(x1, y1)) {
-        std::swap(board[currentPiece.getRow()][currentPiece.getCol()], board[x1][y1]);
+        board[x1][y1] = board[currentPiece.getRow()][currentPiece.getCol()];
+        board[currentPiece.getRow()][currentPiece.getCol()] = " ";
         isTimeBecomeAKing(x1, y1);
         changePlayer();
         return true;
     } else if (abs(x1 - currentPiece.getRow()) == 2 && abs(y1 - currentPiece.getCol()) == 2) {
         if (isJump(x1, y1)) {
-            std::swap(board[currentPiece.getRow()][currentPiece.getCol()], board[x1][y1]);
+            board[x1][y1] = board[currentPiece.getRow()][currentPiece.getCol()];
+            board[currentPiece.getRow()][currentPiece.getCol()] = " ";
             isTimeBecomeAKing(x1, y1);
             changePlayer();
             return true;
@@ -75,7 +77,7 @@ bool Board::movePiece(int x1, int y1) {
 }
 
 bool Board::isMoveValid(int x1, int y1) {
-    if (x1 < 0 && x1 >= boardHeight && y1 > 0 && y1 >= boardWidth && board[x1][y1] != " " && (x1 + y1) != 0) {
+    if (x1 < 0 && x1 >= boardWidth && y1 < 0 && y1 >= boardHeight && board[x1][y1] != " " && (x1 + y1) % 2 != 0) {
         return false;
     }
 
@@ -92,7 +94,7 @@ bool Board::isMoveValid(int x1, int y1) {
 }
 
 bool Board::isJump(int x1, int y1) {
-    int opponentPieceRow = (currentPiece.getRow() + y1) / 2;
+    int opponentPieceRow = (currentPiece.getRow() + x1) / 2;
     int opponentPieceCol = (currentPiece.getCol() + y1) / 2;
 
     std::string opponent, opponentK;
@@ -103,7 +105,8 @@ bool Board::isJump(int x1, int y1) {
         opponent = "PBP";
         opponentK = "PBK";
     }
-    if (board[opponentPieceRow][opponentPieceCol].find(opponent) != -1) {
+
+    if (board[opponentPieceRow][opponentPieceCol].find(opponent) >= 0 || board[opponentPieceRow][opponentPieceCol].find(opponentK) >= 0) {
         board[opponentPieceRow][opponentPieceCol] = " ";
         return true;
     }

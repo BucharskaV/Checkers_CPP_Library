@@ -150,9 +150,9 @@ JNIEXPORT jboolean JNICALL Java_Game_Board_isGameOver
 /*
  * Class:     Game_Board
  * Method:    getCurrentPlayer
- * Signature: ()Ljava/lang/String;
+ * Signature: ()C
  */
-JNIEXPORT jstring JNICALL Java_Game_Board_getCurrentPlayer
+JNIEXPORT jchar JNICALL Java_Game_Board_getCurrentPlayer
   (JNIEnv *, jobject);
 
 /*

@@ -34,6 +34,7 @@ public:
     void setCurrentPlayer(const char &currentPlayer);
 
     bool setCurrentPiece(int x, int y);
+
 };
 
 

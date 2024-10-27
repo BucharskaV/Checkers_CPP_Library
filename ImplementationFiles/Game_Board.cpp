@@ -39,4 +39,7 @@ Java_Game_Board_movePiece(JNIEnv *env, jobject obj, jint x1, jint y1){
     return boardInstance.movePiece(x1, y1);
 }
 
+JNIEXPORT jchar JNICALL Java_Game_Board_getCurrentPlayer(JNIEnv *env, jobject obj){
+    return boardInstance.getCurrentPlayer();
+}
 }
