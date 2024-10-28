@@ -39,7 +39,7 @@ void Board::resetParameters() {
 }
 
 bool Board::setCurrentPiece(int x, int y) {
-    if(x > 0 && x < boardHeight && y > 0 && y < boardWidth && board[x][y]!= " " && currentPlayer == board[x][y][1]){
+    if(x >= 0 && x < boardHeight && y >= 0 && y < boardWidth && board[x][y]!= " " && currentPlayer == board[x][y][1]){
         currentPiece = Piece(x, y, currentPlayer);
         return true;
     }
@@ -106,7 +106,7 @@ bool Board::isJump(int x1, int y1) {
         opponentK = "PBK";
     }
 
-    if (board[opponentPieceRow][opponentPieceCol].find(opponent) >= 0 || board[opponentPieceRow][opponentPieceCol].find(opponentK) >= 0) {
+    if (board[opponentPieceRow][opponentPieceCol] == opponent || board[opponentPieceRow][opponentPieceCol] == opponentK) {
         board[opponentPieceRow][opponentPieceCol] = " ";
         return true;
     }
