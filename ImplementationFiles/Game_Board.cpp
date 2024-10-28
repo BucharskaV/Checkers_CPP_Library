@@ -39,7 +39,19 @@ Java_Game_Board_movePiece(JNIEnv *env, jobject obj, jint x1, jint y1){
     return boardInstance.movePiece(x1, y1);
 }
 
-JNIEXPORT jchar JNICALL Java_Game_Board_getCurrentPlayer(JNIEnv *env, jobject obj){
+JNIEXPORT jchar JNICALL
+Java_Game_Board_getCurrentPlayer(JNIEnv *env, jobject obj){
     return boardInstance.getCurrentPlayer();
+}
+
+JNIEXPORT jboolean JNICALL
+Java_Game_Board_isGameOver(JNIEnv *env, jobject obj){
+    return boardInstance.isGameOver();
+}
+
+JNIEXPORT jstring JNICALL
+Java_Game_Board_getWinner(JNIEnv *env, jobject obj){
+    std::string winner = boardInstance.getWinner();
+    return env->NewStringUTF(winner.c_str());
 }
 }

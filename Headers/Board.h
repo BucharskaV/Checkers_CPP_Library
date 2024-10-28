@@ -15,6 +15,8 @@ private:
     int boardHeight;
     Piece currentPiece;
     char currentPlayer;
+    std::string opponent, opponentK;
+    std::string winner;
 public:
     Board();
     ~Board();
@@ -27,6 +29,8 @@ public:
     void isTimeBecomeAKing(int x, int y);
     bool movePiece(int x1, int y1);
     void changePlayer();
+    bool isGameOver();
+    bool findPiece(std::string piece);
     bool setCurrentPiece();
 
     const char &getCurrentPlayer() const;
@@ -35,6 +39,9 @@ public:
 
     bool setCurrentPiece(int x, int y);
 
+    const std::string &getWinner() const;
+
+    void setWinner(const std::string &winner);
 };
 
 

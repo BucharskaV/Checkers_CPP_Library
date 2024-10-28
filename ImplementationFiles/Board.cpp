@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <algorithm>
 #include "../Headers/Board.h"
 
 Board::Board() : boardWidth(8), boardHeight(8) {
@@ -36,6 +37,8 @@ void Board::resetParameters() {
             {"PRP", " ", "PRP", " ", "PRP", " ", "PRP", " "}
     };
     currentPlayer = 'R';
+    opponent = "PBP";
+    opponentK = "PBK";
 }
 
 bool Board::setCurrentPiece(int x, int y) {
@@ -83,12 +86,12 @@ bool Board::isMoveValid(int x1, int y1) {
 
     std::string value = board[currentPiece.getRow()][currentPiece.getCol()];
 
-    if(currentPlayer == 'B'){
+    if(value == "PBP"){
         return (x1 == currentPiece.getRow() + 1 && abs(y1 - currentPiece.getCol()) == 1);
-    }else if(currentPlayer == 'R'){
+    }else if(value == "PRP"){
         return (x1 == currentPiece.getRow() - 1 && abs(y1 - currentPiece.getCol()) == 1);
     } else if(value=="PBK" ||value=="PRK"){
-        return (abs(x1 - currentPiece.getRow()) == 1 && abs(x1 - currentPiece.getCol()) == 1);
+        return (abs(x1 - currentPiece.getRow()) == abs(y1 - currentPiece.getCol()));
     }
     return false;
 }
@@ -96,15 +99,6 @@ bool Board::isMoveValid(int x1, int y1) {
 bool Board::isJump(int x1, int y1) {
     int opponentPieceRow = (currentPiece.getRow() + x1) / 2;
     int opponentPieceCol = (currentPiece.getCol() + y1) / 2;
-
-    std::string opponent, opponentK;
-    if (currentPlayer == 'B') {
-        opponent = "PRP";
-        opponentK = "PRK";
-    } else {
-        opponent = "PBP";
-        opponentK = "PBK";
-    }
 
     if (board[opponentPieceRow][opponentPieceCol] == opponent || board[opponentPieceRow][opponentPieceCol] == opponentK) {
         board[opponentPieceRow][opponentPieceCol] = " ";
@@ -122,7 +116,45 @@ void Board::isTimeBecomeAKing(int x, int y) {
 }
 
 void Board::changePlayer() {
-    if(currentPlayer == 'R') currentPlayer = 'B';
-    else currentPlayer = 'R';
+    if(currentPlayer == 'R') {
+        currentPlayer = 'B';
+        opponent = "PRP";
+        opponentK = "PRK";
+    }
+    else {
+        currentPlayer = 'R';
+        opponent = "PBP";
+        opponentK = "PBK";
+    }
+}
+
+bool Board::isGameOver() {
+    if(!findPiece("PBP") && !findPiece("PBK")){
+        setWinner("Red");
+        return true;
+    } else if(!findPiece("PRP") && !findPiece("PRK")){
+        setWinner("Black");
+        return true;
+    }
+    return false;
+}
+
+const std::string &Board::getWinner() const {
+    return winner;
+}
+
+void Board::setWinner(const std::string &winner) {
+    Board::winner = winner;
+}
+
+bool Board::findPiece(std::string piece) {
+    for (int row = 0; row < board.size(); row++) {
+        for (int col = 0; col < board[row].size(); col++) {
+            if(board[row][col] == piece){
+                return true;
+            }
+        }
+    }
+    return false;
 }
 

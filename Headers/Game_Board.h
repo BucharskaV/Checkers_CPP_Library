@@ -163,6 +163,14 @@ JNIEXPORT jchar JNICALL Java_Game_Board_getCurrentPlayer
 JNIEXPORT jboolean JNICALL Java_Game_Board_setCurrentPiece
   (JNIEnv *, jobject, jint, jint);
 
+/*
+ * Class:     Game_Board
+ * Method:    getWinner
+ * Signature: ()Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_Game_Board_getWinner
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif
