@@ -157,35 +157,57 @@ bool Board::findPiece(std::string piece) {
 }
 
 bool Board::isMoveValidByKing(int x1, int y1) {
-    int rowDirection = (x1 > currentPiece.getRow()) ? 1 : -1;
-    int colDirection = (y1 > currentPiece.getCol()) ? 1 : -1;
-    int opponentPieceRow;
-    int opponentPieceCol;
-    bool hasMeetOpponent = false;
+    int startRow = currentPiece.getRow();
+    int startCol = currentPiece.getCol();
+    int rowDirection = (x1 > startRow) ? 1 : -1;
+    int colDirection = (y1 > startCol) ? 1 : -1;
 
-    if (abs(x1 - currentPiece.getRow()) == abs(y1 - currentPiece.getCol())) {
-        int currentRow = currentPiece.getRow() + rowDirection;
-        int currentCol = currentPiece.getCol() + colDirection;
+    // Track if we've encountered an opponent piece
+    bool hasMetOpponent = false;
+    int opponentPieceRow = -1;
+    int opponentPieceCol = -1;
 
-        std::string piece = "P" + std::string(1, currentPlayer) + "P";
-        std::string king = "P" + std::string(1, currentPlayer) + "k";
-
-        while (currentRow != x1 && currentCol != y1) {
-            if (board[currentRow][currentCol] != " ") {
-                if (hasMeetOpponent || board[currentRow][currentCol] == piece || board[currentRow][currentCol] == king) {
-                    return false;
-                }
-                hasMeetOpponent = true;
-                opponentPieceRow = currentRow;
-                opponentPieceCol = currentCol;
-            }
-            currentRow += rowDirection;
-            currentCol += colDirection;
-        }
-        board[opponentPieceRow][opponentPieceCol] = " ";
-        return true;
+    // Check that the target cell is within the board and is empty
+    if (x1 < 0 || x1 >= boardHeight || y1 < 0 || y1 >= boardWidth || board[x1][y1] != " ") {
+        return false;
     }
-    return false;
+
+    // Ensure we’re moving along a diagonal
+    if (std::abs(x1 - startRow) != std::abs(y1 - startCol)) {
+        return false;
+    }
+
+    int currentRow = startRow + rowDirection;
+    int currentCol = startCol + colDirection;
+
+    // Determine current player's piece and king identifiers
+    std::string piece = "P" + std::string(1, currentPlayer) + "P";
+    std::string king = "P" + std::string(1, currentPlayer) + "K";
+
+    while (currentRow != x1 && currentCol != y1) {
+        if (board[currentRow][currentCol] != " ") {
+            // If own piece is encountered or another opponent after the first, move is invalid
+            if (hasMetOpponent || board[currentRow][currentCol] == piece || board[currentRow][currentCol] == king) {
+                return false;
+            }
+
+            // Record opponent position if first encounter
+            hasMetOpponent = true;
+            opponentPieceRow = currentRow;
+            opponentPieceCol = currentCol;
+        }
+
+        // Move to next cell along the direction
+        currentRow += rowDirection;
+        currentCol += colDirection;
+    }
+
+    // Clear the opponent's piece if a valid capture occurred
+    if (hasMetOpponent) {
+        board[opponentPieceRow][opponentPieceCol] = " ";
+    }
+
+    return true;
 }
 
 bool Board::isMoveValidByPiece(int x1, int y1) {
