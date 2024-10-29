@@ -31,6 +31,8 @@ public:
     void changePlayer();
     bool isGameOver();
     bool findPiece(std::string piece);
+    bool isMoveValidByPiece(int x1, int y1);
+    bool isMoveValidByKing(int x1, int y1);
     bool setCurrentPiece();
 
     const char &getCurrentPlayer() const;
