@@ -54,4 +54,8 @@ Java_Game_Board_getWinner(JNIEnv *env, jobject obj){
     std::string winner = boardInstance.getWinner();
     return env->NewStringUTF(winner.c_str());
 }
+JNIEXPORT jboolean JNICALL
+Java_Game_Board_possibleJumps(JNIEnv *env, jobject obj){
+    return boardInstance.possibleJumps();
+}
 }

@@ -34,6 +34,8 @@ public:
     bool isMoveValidByPiece(int x1, int y1);
     bool isMoveValidByKing(int x1, int y1);
     bool setCurrentPiece();
+    bool possibleJumps();
+    bool isKing();
 
     const char &getCurrentPlayer() const;
 
