@@ -171,14 +171,6 @@ JNIEXPORT jboolean JNICALL Java_Game_Board_setCurrentPiece
 JNIEXPORT jstring JNICALL Java_Game_Board_getWinner
   (JNIEnv *, jobject);
 
-/*
- * Class:     Game_Board
- * Method:    possibleJumps
- * Signature: ()Z
- */
-JNIEXPORT jboolean JNICALL Java_Game_Board_possibleJumps
-  (JNIEnv *, jobject);
-
 #ifdef __cplusplus
 }
 #endif

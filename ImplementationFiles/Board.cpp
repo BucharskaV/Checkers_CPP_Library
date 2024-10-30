@@ -66,14 +66,7 @@ bool Board::movePiece(int x1, int y1) {
         board[currentPiece.getRow()][currentPiece.getCol()] = " ";
 
         isTimeBecomeAKing(x1, y1);
-
-        if(possibleJumps()){
-            std::cout<<"Possible jump";
-            setCurrentPiece(x1, y1);
-        }
-        else {
-            changePlayer();
-        }
+        changePlayer();
         return true;
     }
     return false;
@@ -198,46 +191,6 @@ bool Board::isMoveValidByPiece(int x1, int y1) {
     if (abs(x1 - currentPiece.getRow()) == 2 && abs(y1 - currentPiece.getCol()) == 2) {
         if (isJump(x1, y1)) {
             return true;
-        }
-    }
-    return false;
-}
-
-bool Board::possibleJumps() {
-    int directions[4][2] = {{1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
-
-    for (auto& direction : directions) {
-        int dRow = direction[0];
-        int dCol = direction[1];
-
-        if (isKing()) {
-            int currentRow = currentPiece.getRow() + dRow;
-            int currentCol = currentPiece.getCol() + dCol;
-            bool hasMetOpponent = false;
-
-            while (currentRow >= 0 && currentRow < boardWidth && currentCol >= 0 && currentCol < boardHeight) {
-                if (board[currentRow][currentCol] == opponent && board[currentRow][currentCol] == opponentK) {
-                    if (hasMetOpponent) break;
-                    hasMetOpponent = true;
-                } else if (board[currentRow][currentCol] == " " && hasMetOpponent) {
-                    return true;
-                } else if (board[currentRow][currentCol] != " ") {
-                    break;
-                }
-
-                currentRow += dRow;
-                currentCol += dCol;
-            }
-        } else {
-            int capRow = currentPiece.getRow() + dRow;
-            int capCol = currentPiece.getCol() + dCol;
-            int destRow = currentPiece.getRow() + 2 * dRow;
-            int destCol = currentPiece.getCol() + 2 * dCol;
-
-            if (destRow >= 0 && destRow < boardHeight && destCol >= 0 && destCol < boardWidth &&
-                board[capRow][capCol] == opponent && board[capRow][capCol] == opponentK && board[destRow][destCol] == " ") {
-                return true;
-            }
         }
     }
     return false;
