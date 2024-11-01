@@ -147,6 +147,9 @@ bool Board::findPiece(std::string piece) {
 }
 
 bool Board::isMoveValidByKing(int x1, int y1) {
+    if(board[x1][y1] != " "){
+        return false;
+    }
     int rowDirection = (x1 > currentPiece.getRow()) ? 1 : -1;
     int colDirection = (y1 > currentPiece.getCol()) ? 1 : -1;
 
