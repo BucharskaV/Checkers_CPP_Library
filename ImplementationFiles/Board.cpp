@@ -185,14 +185,17 @@ bool Board::isMoveValidByKing(int x1, int y1) {
 
 bool Board::isMoveValidByPiece(int x1, int y1) {
     int step = (currentPlayer == 'B') ? 1 : -1;
-    if(x1 == currentPiece.getRow() + step && abs(y1 - currentPiece.getCol()) == 1){
-        return true;
-    }
-    if (abs(x1 - currentPiece.getRow()) == 2 && abs(y1 - currentPiece.getCol()) == 2) {
-        if (isJump(x1, y1)) {
+    if(board[x1][y1] == " "){
+        if(x1 == currentPiece.getRow() + step && abs(y1 - currentPiece.getCol()) == 1){
             return true;
         }
+        if (abs(x1 - currentPiece.getRow()) == 2 && abs(y1 - currentPiece.getCol()) == 2) {
+            if (isJump(x1, y1)) {
+                return true;
+            }
+        }
     }
+
     return false;
 }
 
